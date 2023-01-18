@@ -1,26 +1,28 @@
 /**
  * A schema for describing a vulnerability in an open source package.
+ *
+ * https://github.com/ossf/osv-schema/blob/main/validation/schema.json
  */
 export interface Vulnerability {
   affected?: Affected[];
   aliases?: string[];
   credits?: Credit[];
-  databaseSpecific?: { [key: string]: unknown };
+  database_specific?: { [key: string]: unknown };
   details?: string;
   id: string;
-  modified: Date;
-  published?: Date;
+  modified: string;
+  published?: string;
   references?: Reference[];
   related?: string[];
-  schemaVersion?: string;
+  schema_version?: string;
   severity?: Severity[];
   summary?: string;
-  withdrawn?: Date;
+  withdrawn?: string;
 }
 
 export interface Affected {
-  databaseSpecific?: { [key: string]: unknown };
-  ecosystemSpecific?: { [key: string]: unknown };
+  database_specific?: { [key: string]: unknown };
+  ecosystem_specific?: { [key: string]: unknown };
   package?: Package;
   ranges?: Range[];
   versions?: string[];
@@ -36,11 +38,13 @@ export interface Range {
   events: Event[];
   repo?: string;
   type: RangeType;
+  database_specific?: { [key: string]: unknown };
 }
 
 export interface Event {
   introduced?: string;
   fixed?: string;
+  last_affected?: string;
   limit?: string;
 }
 
@@ -57,17 +61,18 @@ export interface Reference {
 }
 
 export type ReferenceType =
-  |'ADVISORY'
-  |'ARTICLE'
-  |'FIX'
-  |'GIT'
-  |'PACKAGE'
-  |'REPORT'
-  |'WEB';
+  | 'ADVISORY'
+  | 'ARTICLE'
+  | 'EVIDENCE'
+  | 'FIX'
+  | 'GIT'
+  | 'PACKAGE'
+  | 'REPORT'
+  | 'WEB';
 
 export interface Severity {
   score: string;
   type: SeverityType;
 }
 
-export type SeverityType = 'CVSS_V3';
+export type SeverityType = 'CVSS_V3' | 'CVSS_V2';
